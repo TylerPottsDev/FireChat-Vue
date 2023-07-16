@@ -3,24 +3,24 @@
     <form class="login-form" @submit.prevent="Login">
       <div class="form-inner">
         <h1>Login to FireChat</h1>
-        <label for="username">Username</label>
-        <input 
-          type="text" 
-          v-model="inputUsername" 
-          placeholder="Please enter your username..." />
-        <input 
-          type="submit" 
-          value="Login" />
+      <label for="username">Username</label>
+      <input 
+        type="text" 
+        v-model="inputUsername"
+        placeholder="Please enter your username..." />
+      <input 
+        type="submit" 
+        value="Login" />
       </div>
     </form>
   </div>
-  
+
   <div class="view chat" v-else>
     <header>
       <button class="logout" @click="Logout">Logout</button>
       <h1>Welcome, {{ state.username }}</h1>
     </header>
-    
+
     <section class="chat-box">
       <div 
         v-for="message in state.messages" 
@@ -37,7 +37,7 @@
       <form @submit.prevent="SendMessage">
         <input 
           type="text" 
-          v-model="inputMessage" 
+          v-model="inputMessage"
           placeholder="Write a message..." />
         <input 
           type="submit" 
@@ -94,26 +94,28 @@ export default {
       messagesRef.on('value', snapshot => {
         const data = snapshot.val();
         let messages = [];
-
-        Object.keys(data).forEach(key => {
-          messages.push({
-            id: key,
-            username: data[key].username,
-            content: data[key].content
+        
+        if(data) {
+          Object.keys(data).forEach(key => {
+            messages.push({
+                id: key,
+                username: data[key].username,
+                content: data[key].content
+              });
           });
-        });
+        };
 
         state.messages = messages;
       });
     });
 
     return {
-      inputUsername,
-      Login,
-      state,
-      inputMessage,
-      SendMessage,
-      Logout
+		inputUsername,
+      	Login,
+      	state,
+      	inputMessage,
+      	SendMessage,
+      	Logout   
     }
   }
 }
